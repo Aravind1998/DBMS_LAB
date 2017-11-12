@@ -62,24 +62,26 @@ select * from TEST_1_MARKS_OF_1BI15CS101;
 
 delimiter //
 
-create procedure FinalMarks()
-	begin
-		declare test1 int;
-		declare test2 int;
-		declare test3 int;
-		declare usn varchar(10);
-		declare subCode varchar(7);
-		declare finalAvg int;
-		declare cur cursor for select USN, Subject_Code, Test1, Test2, Test3 from IAMARKS;
-		open cur;
-		loop
-			fetch cur into usn, subCode, test1, test2, test3;
-			set finalAvg = ((test1 + test2 + test3) - least(test1, test2, test3)) / 2;
-			update IAMARKS set FinalIA = finalAvg where USN = usn and Subject_Code = subCode;
-		end loop;
-		close cur;
-	end;
-//
+create procedure FinalMarks89 ()
+    begin
+        declare t1 int;
+        declare t2 int;
+        declare t3 int;
+        declare student_usn varchar(10);
+        declare subCode varchar(7);
+        declare finalAvg int;
+        declare cur1 cursor for select USN, Subject_Code, Test1, Test2, Test3 from IAMARKS;
+        open cur1;
+        loop
+            FETCH cur1 into student_usn, subCode, t1, t2, t3;
+            set finalAvg = ((t1 + t2 + t3) - least(t1, t2, t3)) / 2;
+            update IAMARKS set FinalIA = finalAvg where USN = student_usn and Subject_Code = subCode;
+        end loop;
+        close cur1;
+    end//
+
+
+delimiter ;
 Query OK, 0 rows affected (0.01 sec)
 --\c
 
